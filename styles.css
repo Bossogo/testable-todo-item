@@ -14,6 +14,20 @@ body {
 	background: linear-gradient(165deg, #f4f9ff 0%, #dbeefe 100%);
 }
 
+:root {
+	--priority-low: #0f766e;
+	--priority-medium: #b45309;
+	--priority-high: #b42318;
+	--status-pending-bg: #f1f5f9;
+	--status-pending-text: #334155;
+	--status-progress-bg: #ecfeff;
+	--status-progress-text: #155e75;
+	--status-done-bg: #ecfdf3;
+	--status-done-text: #166534;
+	--danger-bg: #fef2f2;
+	--danger-text: #b42318;
+}
+
 .page-shell {
 	min-height: 100vh;
 	display: grid;
@@ -25,6 +39,7 @@ body {
 	width: 100%;
 	max-width: 480px;
 	border: 1px solid #dbe5f0;
+	border-left: 6px solid transparent;
 	border-radius: 16px;
 	background: #ffffff;
 	box-shadow: 0 16px 38px rgba(15, 23, 42, 0.12);
@@ -33,11 +48,29 @@ body {
 	gap: 16px;
 }
 
+.todo-card.priority-low {
+	border-left-color: var(--priority-low);
+}
+
+.todo-card.priority-medium {
+	border-left-color: var(--priority-medium);
+}
+
+.todo-card.priority-high {
+	border-left-color: var(--priority-high);
+}
+
 .todo-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
 	gap: 12px;
+}
+
+.todo-header-main {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 h2 {
@@ -50,6 +83,37 @@ h2 {
 	margin: 0;
 	color: #475569;
 	line-height: 1.6;
+}
+
+.todo-collapsible {
+	transition: max-height 0.2s ease;
+}
+
+.todo-collapsible.is-collapsed {
+	max-height: 5.2rem;
+	overflow: hidden;
+	position: relative;
+}
+
+.todo-collapsible.is-collapsed::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0;
+	height: 2.4rem;
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff 70%);
+}
+
+.ghost-button {
+	appearance: none;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	padding: 8px 10px;
+	font-size: 0.88rem;
+	font-weight: 600;
+	background: #f8fafc;
+	color: #1e293b;
+	cursor: pointer;
+	width: fit-content;
 }
 
 .badge {
@@ -67,14 +131,37 @@ h2 {
 	color: #b42318;
 }
 
+.priority-low {
+	background: #ecfdf5;
+	color: #0f766e;
+}
+
+.priority-medium {
+	background: #fffbeb;
+	color: #b45309;
+}
+
+.priority-indicator {
+	width: 12px;
+	height: 12px;
+	border-radius: 999px;
+	background: #94a3b8;
+	flex: 0 0 auto;
+}
+
 .status-in-progress {
-	background: #ecfeff;
-	color: #155e75;
+	background: var(--status-progress-bg);
+	color: var(--status-progress-text);
 }
 
 .status-done {
-	background: #ecfdf3;
-	color: #166534;
+	background: var(--status-done-bg);
+	color: var(--status-done-text);
+}
+
+.status-pending {
+	background: var(--status-pending-bg);
+	color: var(--status-pending-text);
 }
 
 .todo-meta {
@@ -103,6 +190,28 @@ h2 {
 .todo-controls input[type="checkbox"] {
 	width: 18px;
 	height: 18px;
+}
+
+.status-control-wrap {
+	display: grid;
+	gap: 6px;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="datetime-local"] {
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	padding: 9px 10px;
+	font: inherit;
+	color: #0f172a;
+	background: #ffffff;
+}
+
+textarea {
+	resize: vertical;
+	min-height: 96px;
 }
 
 .tag-list {
@@ -148,6 +257,45 @@ button {
 	background: #7f1d1d;
 }
 
+#todo-cancel-button {
+	background: #334155;
+}
+
+#todo-save-button {
+	background: #0f766e;
+}
+
+.todo-edit-form {
+	display: grid;
+	gap: 12px;
+	padding-top: 2px;
+}
+
+.form-row {
+	display: grid;
+	gap: 6px;
+}
+
+.form-row label {
+	font-weight: 600;
+	color: #1e293b;
+}
+
+.overdue-indicator {
+	background: var(--danger-bg);
+	color: var(--danger-text);
+}
+
+.todo-card.is-overdue {
+	box-shadow: 0 14px 32px rgba(185, 28, 28, 0.2);
+	border-color: #fecaca;
+}
+
+.todo-card.is-overdue #todo-time-remaining {
+	color: var(--danger-text);
+	font-weight: 700;
+}
+
 button:hover {
 	filter: brightness(1.08);
 }
@@ -161,6 +309,10 @@ input:focus-visible {
 .todo-card.is-complete h2 {
 	text-decoration: line-through;
 	color: #475569;
+}
+
+.todo-card.is-complete .todo-description {
+	color: #64748b;
 }
 
 @media (max-width: 480px) {

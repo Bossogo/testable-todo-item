@@ -195,6 +195,11 @@ h2 {
 .status-control-wrap {
 	display: grid;
 	gap: 6px;
+	margin-top: 4px;
+}
+
+.todo-tags {
+	margin-top: 4px;
 }
 
 select,
@@ -236,6 +241,10 @@ textarea {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 10px;
+}
+
+.todo-view > .todo-actions {
+	margin-top: 4px;
 }
 
 button {
